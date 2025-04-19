@@ -1,81 +1,77 @@
-﻿using ConsoleRpgEntities.Models.Abilities.PlayerAbilities;
-using ConsoleRpgEntities.Models.Characters;
-using ConsoleRpgEntities.Models.Characters.Monsters;
-using ConsoleRpgEntities.Models.Equipments;
+﻿using ConsoleRpgEntities.Models.Abilities;
+using ConsoleRpgEntities.Models.Combat;
+using ConsoleRpgEntities.Models.Dungeons;
+using ConsoleRpgEntities.Models.Items;
+using ConsoleRpgEntities.Models.Items.ConsumableItems;
+using ConsoleRpgEntities.Models.Items.EquippableItems.ArmorItems;
+using ConsoleRpgEntities.Models.Items.EquippableItems.WeaponItems;
+using ConsoleRpgEntities.Models.Rooms;
+using ConsoleRpgEntities.Models.Units.Abstracts;
+using ConsoleRpgEntities.Models.Units.Characters;
+using ConsoleRpgEntities.Models.Units.Monsters;
 using Microsoft.EntityFrameworkCore;
 
-namespace ConsoleRpgEntities.Data
+namespace ConsoleRpgEntities.Data;
+
+public class GameContext : DbContext
 {
-    public class GameContext : DbContext
+    // DbSet properties for each entity type that will be mapped to the database
+    public DbSet<Dungeon> Dungeons { get; set; }
+    public DbSet<Room> Rooms { get; set; }
+    public DbSet<Unit> Units { get; set; }
+    public DbSet<Stat> Stats { get; set; }
+    public DbSet<Item> Items { get; set; }
+    public DbSet<Ability> Abilities { get; set; }
+    public DbSet<UnitItem> UnitItems { get; set; }
+    public GameContext() { }
+    public GameContext(DbContextOptions<GameContext> options) : base(options) { }
+
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        public DbSet<Player> Players { get; set; }
-        public DbSet<Monster> Monsters { get; set; }
-        public DbSet<Ability> Abilities { get; set; }
-        public DbSet<Item> Items { get; set; }
-        public DbSet<Equipment> Equipments { get; set; }
+        // Configures the GameContext to be able to use the UnitType property as a discriminator for the Unit entity
+        builder.Entity<Unit>()
+            .HasDiscriminator(unit => unit.UnitType)
+            .HasValue<Cleric>(nameof(Cleric))
+            .HasValue<Fighter>(nameof(Fighter))
+            .HasValue<Knight>(nameof(Knight))
+            .HasValue<Rogue>(nameof(Rogue))
+            .HasValue<Wizard>(nameof(Wizard))
 
-        public GameContext(DbContextOptions<GameContext> options) : base(options)
-        {
-        }
+            .HasValue<EnemyArcher>(nameof(EnemyArcher))
+            .HasValue<EnemyCleric>(nameof(EnemyCleric))
+            .HasValue<EnemyGhost>(nameof(EnemyGhost))
+            .HasValue<EnemyGoblin>(nameof(EnemyGoblin))
+            .HasValue<EnemyMage>(nameof(EnemyMage));
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            // Configure TPH for Character hierarchy
-            modelBuilder.Entity<Monster>()
-                .HasDiscriminator<string>(m=> m.MonsterType)
-                .HasValue<Goblin>("Goblin");
+        // Configures the GameContext to be able to use the ItemType property as a discriminator for the Item entity
+        builder.Entity<Item>()
+            .HasDiscriminator(item => item.ItemType)
+            .HasValue<GenericItem>(nameof(GenericItem))
 
-            // Configure TPH for Ability hierarchy
-            modelBuilder.Entity<Ability>()
-                .HasDiscriminator<string>(pa=>pa.AbilityType)
-                .HasValue<ShoveAbility>("ShoveAbility");
+            .HasValue<ItemBook>(nameof(ItemBook))
+            .HasValue<ItemLockpick>(nameof(ItemLockpick))
+            .HasValue<ItemPotion>(nameof(ItemPotion))
 
-            // Configure many-to-many relationship
-            modelBuilder.Entity<Player>()
-                .HasMany(p => p.Abilities)
-                .WithMany(a => a.Players)
-                .UsingEntity(j => j.ToTable("PlayerAbilities"));
+            .HasValue<MagicWeaponItem>(nameof(MagicWeaponItem))
+            .HasValue<PhysicalWeaponItem>(nameof(PhysicalWeaponItem))
 
-            // Call the separate configuration method to set up Equipment entity relationships
-            ConfigureEquipmentRelationships(modelBuilder);
+            .HasValue<HeadArmorItem>(nameof(HeadArmorItem))
+            .HasValue<ChestArmorItem>(nameof(ChestArmorItem))
+            .HasValue<LegArmorItem>(nameof(LegArmorItem))
+            .HasValue<FeetArmorItem>(nameof(FeetArmorItem));
 
-            base.OnModelCreating(modelBuilder);
-        }
+        // Configures the GameContext to be able to use the AbilityType property as a discriminator for the Ability entity
+        builder.Entity<Ability>()
+            .HasDiscriminator(ability => ability.AbilityType)
+            .HasValue<FlyAbility>(nameof(FlyAbility))
+            .HasValue<HealAbility>(nameof(HealAbility))
+            .HasValue<StealAbility>(nameof(StealAbility))
+            .HasValue<TauntAbility>(nameof(TauntAbility));
 
-        private void ConfigureEquipmentRelationships(ModelBuilder modelBuilder)
-        {
-            // Configuring the Equipment entity to handle relationships with Item entities (Weapon and Armor)
-            // without causing multiple cascade paths in SQL Server.
-
-            // Equipment has a nullable foreign key WeaponId, pointing to the Item entity.
-            // Setting DeleteBehavior.Restrict ensures that deleting an Item (Weapon) 
-            // will NOT cascade delete any Equipment rows that reference it.
-            // This prevents conflicts that arise with multiple cascading paths.
-            modelBuilder.Entity<Equipment>()
-                .HasOne(e => e.Weapon)  // Define the relationship to the Weapon item
-                .WithMany()             // Equipment doesn't need to navigate back to Item
-                .HasForeignKey(e => e.WeaponId)  // Specifies the foreign key column in Equipment
-                //.OnDelete(DeleteBehavior.Restrict)  // Prevents cascading deletes, avoids multiple paths
-                .IsRequired(false);
-
-            // Similar configuration for ArmorId, also pointing to the Item entity.
-            // Here we are using DeleteBehavior.Restrict for the Armor foreign key relationship as well.
-            // The goal is to avoid cascade paths from both WeaponId and ArmorId foreign keys.
-            modelBuilder.Entity<Equipment>()
-                .HasOne(e => e.Armor)  // Define the relationship to the Armor item
-                .WithMany()            // No need for reverse navigation back to Equipment
-                .HasForeignKey(e => e.ArmorId)  // Sets ArmorId as the foreign key in Equipment
-                //.OnDelete(DeleteBehavior.Restrict)  // Prevents cascading deletes to avoid conflict
-                .IsRequired(false);
-
-            // Explanation of Why DeleteBehavior.Restrict:
-            // Cascade paths occur when there are multiple relationships in one table pointing to another,
-            // each with cascading delete behavior. SQL Server restricts such configurations to prevent 
-            // accidental recursive deletions. Here, by setting DeleteBehavior.Restrict, deleting an Item
-            // (Weapon or Armor) will simply nullify the WeaponId or ArmorId in Equipment rather than 
-            // cascading a delete through multiple paths.
-        }
+        // Creates a many-to-many relationship between Unit and Item and maps it to the UnitItems table
+        builder.Entity<Unit>()
+        .HasMany(unit => unit.Abilities)
+        .WithMany(ability => ability.Units)
+        .UsingEntity(join => join.ToTable("UnitAbility"));
     }
 }
-
-

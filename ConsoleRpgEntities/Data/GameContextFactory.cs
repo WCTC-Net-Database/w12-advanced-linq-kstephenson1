@@ -1,7 +1,7 @@
-﻿using ConsoleRpgEntities.Helpers;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using ConsoleRpgEntities.Helpers;
 
 namespace ConsoleRpgEntities.Data
 {
@@ -9,17 +9,17 @@ namespace ConsoleRpgEntities.Data
     {
         public GameContext CreateDbContext(string[] args)
         {
-            // Build configuration
-            var configuration = ConfigurationHelper.GetConfiguration();
+            // Get configuration
+            IConfigurationRoot configuration = ConfigurationHelper.GetConfiguration();
 
             // Get connection string
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            string? connectionString = configuration.GetConnectionString("DbConnection");
 
-            // Build options
-            var optionsBuilder = new DbContextOptionsBuilder<GameContext>();
-            ConfigurationHelper.ConfigureDbContextOptions(optionsBuilder, connectionString);
+            // Build DbContextOptions
+            DbContextOptionsBuilder<GameContext> optionsBuilder = new DbContextOptionsBuilder<GameContext>();
+            optionsBuilder.UseSqlServer(connectionString);
 
-            // Create and return the context
+            // Create and return the GameContext
             return new GameContext(optionsBuilder.Options);
         }
     }

@@ -1,91 +1,65 @@
-﻿using ConsoleRpg.Helpers;
-using ConsoleRpgEntities.Data;
-using ConsoleRpgEntities.Models.Attributes;
-using ConsoleRpgEntities.Models.Characters;
-using ConsoleRpgEntities.Models.Characters.Monsters;
+﻿using ConsoleRpgEntities.Data;
+using ConsoleRpgEntities.Models.Abilities;
+using ConsoleRpgEntities.Models.UI;
+using ConsoleRpgEntities.Models.Units.Abstracts;
+using ConsoleRpgEntities.Services;
 
 namespace ConsoleRpg.Services;
 
 public class GameEngine
 {
-    private readonly GameContext _context;
-    private readonly MenuManager _menuManager;
-    private readonly OutputManager _outputManager;
+    private GameContext _db;
+    private SeedHandler _seedHandler;
+    private UserInterface _userInterface;
+    private CombatHandler _combatHandler;
 
-    private IPlayer _player;
-    private IMonster _goblin;
-
-    public GameEngine(GameContext context, MenuManager menuManager, OutputManager outputManager)
+    public GameEngine(GameContext db, SeedHandler seedHandler, UserInterface userInterface, CombatHandler combatHandler)
     {
-        _menuManager = menuManager;
-        _outputManager = outputManager;
-        _context = context;
+        _db = db;
+        _seedHandler = seedHandler;
+        _userInterface = userInterface;
+        _combatHandler = combatHandler;
+    }
+
+    public void StartGameEngine()
+    {
+        Initialization();
+        Run();
+        //Test();
+        End();
+    }
+
+    void Test()
+    {
+        // This method is only used for testing purposes and should be removed when the "game" is finished.
+        Unit rogue = _db.Units.Where(u => u.Class == "Rogue").FirstOrDefault();
+        Unit target = _db.Units.FirstOrDefault();
+        Ability steal = _db.Abilities.Where(a => a.Units.Contains(rogue)).FirstOrDefault();
+        rogue.UseAbility(target, steal);
+        
+        rogue.Attack(target);
+    }
+
+    public void Initialization()
+    {
+        // Seeds the database with initial data. This is only run once when the program is started for the first time.
+        _seedHandler.SeedDatabase();
     }
 
     public void Run()
     {
-        if (_menuManager.ShowMainMenu())
-        {
-            SetupGame();
-        }
+        // Runs the main game loop. This is where the game starts and runs until the user chooses to exit.
+
+        // Shows the main menu and waits for the user to choose an option.
+        _userInterface.MainMenu.Display("[[Start Game]]");
+
+        // Starts the combat handler, which is the main game loop.
+        _combatHandler.StartCombat();
     }
 
-    private void GameLoop()
+    public void End()
     {
-        _outputManager.Clear();
-
-        while (true)
-        {
-            _outputManager.WriteLine("Choose an action:", ConsoleColor.Cyan);
-            _outputManager.WriteLine("1. Attack");
-            _outputManager.WriteLine("2. Quit");
-
-            _outputManager.Display();
-
-            var input = Console.ReadLine();
-
-            switch (input)
-            {
-                case "1":
-                    AttackCharacter();
-                    break;
-                case "2":
-                    _outputManager.WriteLine("Exiting game...", ConsoleColor.Red);
-                    _outputManager.Display();
-                    Environment.Exit(0);
-                    break;
-                default:
-                    _outputManager.WriteLine("Invalid selection. Please choose 1.", ConsoleColor.Red);
-                    break;
-            }
-        }
+        // Ends the game and exits the program.
+        _userInterface.ExitMenu.Show();
     }
-
-    private void AttackCharacter()
-    {
-        if (_goblin is ITargetable targetableGoblin)
-        {
-            _player.Attack(targetableGoblin);
-            _player.UseAbility(_player.Abilities.First(), targetableGoblin);
-        }
-    }
-
-    private void SetupGame()
-    {
-        _player = _context.Players.FirstOrDefault();
-        _outputManager.WriteLine($"{_player.Name} has entered the game.", ConsoleColor.Green);
-
-        // Load monsters into random rooms 
-        LoadMonsters();
-
-        // Pause before starting the game loop
-        Thread.Sleep(500);
-        GameLoop();
-    }
-
-    private void LoadMonsters()
-    {
-        _goblin = _context.Monsters.OfType<Goblin>().FirstOrDefault();
-    }
-
 }
