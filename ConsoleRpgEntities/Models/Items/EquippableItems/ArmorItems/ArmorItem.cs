@@ -6,7 +6,7 @@ namespace ConsoleRpgEntities.Models.Items.EquippableItems.ArmorItems;
 public abstract class ArmorItem : EquippableItem, IEquippableArmor
 {
     // ArmorItem is an abstract class that holds armor item information.
-    public abstract ArmorType ArmorType { get; set; }
+    public virtual ArmorType ArmorType { get; set; }
     public int Defense { get; set; }
     public int Resistance { get; set; }
 
