@@ -1,4 +1,4 @@
-﻿namespace ConsoleRpgEntities.Configuration;
+﻿namespace ConsoleRpgEntities.Config;
 
 public static class Config
 {
