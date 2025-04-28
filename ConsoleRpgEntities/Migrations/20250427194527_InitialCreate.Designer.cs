@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsoleRpgEntities.Migrations
 {
     [DbContext(typeof(GameContext))]
-    [Migration("20250421030449_InitialCreate")]
+    [Migration("20250427194527_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -26,26 +26,26 @@ namespace ConsoleRpgEntities.Migrations
 
             modelBuilder.Entity("AbilityUnit", b =>
                 {
-                    b.Property<int>("AbilitiesAbilityId")
+                    b.Property<int>("AbilitiesId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UnitsUnitId")
+                    b.Property<int>("UnitsId")
                         .HasColumnType("int");
 
-                    b.HasKey("AbilitiesAbilityId", "UnitsUnitId");
+                    b.HasKey("AbilitiesId", "UnitsId");
 
-                    b.HasIndex("UnitsUnitId");
+                    b.HasIndex("UnitsId");
 
                     b.ToTable("UnitAbility", (string)null);
                 });
 
             modelBuilder.Entity("ConsoleRpgEntities.Models.Abilities.Ability", b =>
                 {
-                    b.Property<int>("AbilityId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AbilityId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AbilityType")
                         .IsRequired()
@@ -60,7 +60,7 @@ namespace ConsoleRpgEntities.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("AbilityId");
+                    b.HasKey("Id");
 
                     b.ToTable("Abilities");
 
@@ -114,11 +114,11 @@ namespace ConsoleRpgEntities.Migrations
 
             modelBuilder.Entity("ConsoleRpgEntities.Models.Dungeons.Dungeon", b =>
                 {
-                    b.Property<int>("DungeonId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DungeonId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -128,23 +128,23 @@ namespace ConsoleRpgEntities.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StartingRoomRoomId")
+                    b.Property<int>("StartingRoomId")
                         .HasColumnType("int");
 
-                    b.HasKey("DungeonId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("StartingRoomRoomId");
+                    b.HasIndex("StartingRoomId");
 
                     b.ToTable("Dungeons");
                 });
 
             modelBuilder.Entity("ConsoleRpgEntities.Models.Items.Item", b =>
                 {
-                    b.Property<int>("ItemId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItemId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -159,7 +159,7 @@ namespace ConsoleRpgEntities.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ItemId");
+                    b.HasKey("Id");
 
                     b.ToTable("Items");
 
@@ -170,11 +170,11 @@ namespace ConsoleRpgEntities.Migrations
 
             modelBuilder.Entity("ConsoleRpgEntities.Models.Rooms.Room", b =>
                 {
-                    b.Property<int>("RoomId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -184,24 +184,24 @@ namespace ConsoleRpgEntities.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RoomId");
+                    b.HasKey("Id");
 
                     b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("ConsoleRpgEntities.Models.Units.Abstracts.Unit", b =>
                 {
-                    b.Property<int>("UnitId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UnitId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Class")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CurrentRoomRoomId")
+                    b.Property<int?>("CurrentRoomId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ItemId")
@@ -219,9 +219,9 @@ namespace ConsoleRpgEntities.Migrations
                         .HasMaxLength(13)
                         .HasColumnType("nvarchar(13)");
 
-                    b.HasKey("UnitId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("CurrentRoomRoomId");
+                    b.HasIndex("CurrentRoomId");
 
                     b.HasIndex("ItemId");
 
@@ -661,13 +661,13 @@ namespace ConsoleRpgEntities.Migrations
                 {
                     b.HasOne("ConsoleRpgEntities.Models.Abilities.Ability", null)
                         .WithMany()
-                        .HasForeignKey("AbilitiesAbilityId")
+                        .HasForeignKey("AbilitiesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ConsoleRpgEntities.Models.Units.Abstracts.Unit", null)
                         .WithMany()
-                        .HasForeignKey("UnitsUnitId")
+                        .HasForeignKey("UnitsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -687,7 +687,7 @@ namespace ConsoleRpgEntities.Migrations
                 {
                     b.HasOne("ConsoleRpgEntities.Models.Rooms.Room", "StartingRoom")
                         .WithMany()
-                        .HasForeignKey("StartingRoomRoomId")
+                        .HasForeignKey("StartingRoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -698,7 +698,7 @@ namespace ConsoleRpgEntities.Migrations
                 {
                     b.HasOne("ConsoleRpgEntities.Models.Rooms.Room", "CurrentRoom")
                         .WithMany("Units")
-                        .HasForeignKey("CurrentRoomRoomId");
+                        .HasForeignKey("CurrentRoomId");
 
                     b.HasOne("ConsoleRpgEntities.Models.Items.Item", null)
                         .WithMany("Units")

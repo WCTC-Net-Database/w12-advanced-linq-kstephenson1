@@ -14,7 +14,7 @@ namespace ConsoleRpgEntities.Migrations
                 name: "Abilities",
                 columns: table => new
                 {
-                    AbilityId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AbilityType = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -22,14 +22,14 @@ namespace ConsoleRpgEntities.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Abilities", x => x.AbilityId);
+                    table.PrimaryKey("PK_Abilities", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Items",
                 columns: table => new
                 {
-                    ItemId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ItemType = table.Column<string>(type: "nvarchar(21)", maxLength: 21, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -52,41 +52,41 @@ namespace ConsoleRpgEntities.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Items", x => x.ItemId);
+                    table.PrimaryKey("PK_Items", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Rooms",
                 columns: table => new
                 {
-                    RoomId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rooms", x => x.RoomId);
+                    table.PrimaryKey("PK_Rooms", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Dungeons",
                 columns: table => new
                 {
-                    DungeonId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartingRoomRoomId = table.Column<int>(type: "int", nullable: false)
+                    StartingRoomId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Dungeons", x => x.DungeonId);
+                    table.PrimaryKey("PK_Dungeons", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Dungeons_Rooms_StartingRoomRoomId",
-                        column: x => x.StartingRoomRoomId,
+                        name: "FK_Dungeons_Rooms_StartingRoomId",
+                        column: x => x.StartingRoomId,
                         principalTable: "Rooms",
-                        principalColumn: "RoomId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -94,28 +94,28 @@ namespace ConsoleRpgEntities.Migrations
                 name: "Units",
                 columns: table => new
                 {
-                    UnitId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UnitType = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Class = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Level = table.Column<int>(type: "int", nullable: false),
-                    CurrentRoomRoomId = table.Column<int>(type: "int", nullable: true),
+                    CurrentRoomId = table.Column<int>(type: "int", nullable: true),
                     ItemId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Units", x => x.UnitId);
+                    table.PrimaryKey("PK_Units", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Units_Items_ItemId",
                         column: x => x.ItemId,
                         principalTable: "Items",
-                        principalColumn: "ItemId");
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Units_Rooms_CurrentRoomRoomId",
-                        column: x => x.CurrentRoomRoomId,
+                        name: "FK_Units_Rooms_CurrentRoomId",
+                        column: x => x.CurrentRoomId,
                         principalTable: "Rooms",
-                        principalColumn: "RoomId");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -142,7 +142,7 @@ namespace ConsoleRpgEntities.Migrations
                         name: "FK_Stats_Units_UnitId",
                         column: x => x.UnitId,
                         principalTable: "Units",
-                        principalColumn: "UnitId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -150,23 +150,23 @@ namespace ConsoleRpgEntities.Migrations
                 name: "UnitAbility",
                 columns: table => new
                 {
-                    AbilitiesAbilityId = table.Column<int>(type: "int", nullable: false),
-                    UnitsUnitId = table.Column<int>(type: "int", nullable: false)
+                    AbilitiesId = table.Column<int>(type: "int", nullable: false),
+                    UnitsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UnitAbility", x => new { x.AbilitiesAbilityId, x.UnitsUnitId });
+                    table.PrimaryKey("PK_UnitAbility", x => new { x.AbilitiesId, x.UnitsId });
                     table.ForeignKey(
-                        name: "FK_UnitAbility_Abilities_AbilitiesAbilityId",
-                        column: x => x.AbilitiesAbilityId,
+                        name: "FK_UnitAbility_Abilities_AbilitiesId",
+                        column: x => x.AbilitiesId,
                         principalTable: "Abilities",
-                        principalColumn: "AbilityId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UnitAbility_Units_UnitsUnitId",
-                        column: x => x.UnitsUnitId,
+                        name: "FK_UnitAbility_Units_UnitsId",
+                        column: x => x.UnitsId,
                         principalTable: "Units",
-                        principalColumn: "UnitId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -186,25 +186,25 @@ namespace ConsoleRpgEntities.Migrations
                         name: "FK_UnitItems_Items_ItemId",
                         column: x => x.ItemId,
                         principalTable: "Items",
-                        principalColumn: "ItemId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UnitItems_Units_UnitId",
                         column: x => x.UnitId,
                         principalTable: "Units",
-                        principalColumn: "UnitId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Dungeons_StartingRoomRoomId",
+                name: "IX_Dungeons_StartingRoomId",
                 table: "Dungeons",
-                column: "StartingRoomRoomId");
+                column: "StartingRoomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UnitAbility_UnitsUnitId",
+                name: "IX_UnitAbility_UnitsId",
                 table: "UnitAbility",
-                column: "UnitsUnitId");
+                column: "UnitsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UnitItems_ItemId",
@@ -212,9 +212,9 @@ namespace ConsoleRpgEntities.Migrations
                 column: "ItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Units_CurrentRoomRoomId",
+                name: "IX_Units_CurrentRoomId",
                 table: "Units",
-                column: "CurrentRoomRoomId");
+                column: "CurrentRoomId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Units_ItemId",
