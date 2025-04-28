@@ -12,10 +12,10 @@ public class Encounter
     // on the roll of a random number.
 
     // Random number generator for simulating combat rolls
-    private Random _generator = new Random();
+    private readonly Random _generator = new();
 
     // Dictionary to hold the weapon triangle advantage values for each weapon type combination
-    private Dictionary<Tuple<WeaponType, WeaponType>, int> dict = new();
+    private readonly Dictionary<Tuple<WeaponType, WeaponType>, int> dict = new();
 
     public int Roll;
     public IUnit Unit { get; set; }
@@ -105,7 +105,7 @@ public class Encounter
     /// <returns></returns>
     public bool IsCrit()
     {
-        bool crit = Roll > MathF.Abs(GetDisplayedCrit() - 100) ? true : false;
+        bool crit = Roll > MathF.Abs(GetDisplayedCrit() - 100);
         return crit;
     }
 
@@ -116,7 +116,7 @@ public class Encounter
     /// <returns></returns>
     public bool IsHit()
     {
-        bool hit = Roll > MathF.Abs(GetDisplayedHit() - 100) ? true : false;
+        bool hit = Roll > MathF.Abs(GetDisplayedHit() - 100);
         return hit;
     }
 
@@ -132,7 +132,7 @@ public class Encounter
     {
         if (Unit.GetEquippedWeapon() == null || Target.GetEquippedWeapon() == null) return 0;
 
-        Tuple<WeaponType,WeaponType> weapons = new(Unit.GetEquippedWeapon().WeaponType, Target.GetEquippedWeapon().WeaponType);
+        Tuple<WeaponType,WeaponType> weapons = new(Unit.GetEquippedWeapon()!.WeaponType, Target.GetEquippedWeapon()!.WeaponType);
         dict.TryGetValue(weapons, out int value);
         if (value != 0) return value;
         return 0;
@@ -159,7 +159,7 @@ public class Encounter
     public int GetAttack()
     {
         int weaponEfficiency = 1; // for future implementation.
-        return Unit.Stat.Strength + weaponEfficiency * (Unit.GetEquippedWeapon().Might + GetTriangleDamageModifier());
+        return Unit.Stat.Strength + weaponEfficiency * (Unit.GetEquippedWeapon()!.Might + GetTriangleDamageModifier());
     }
 
     /// <summary>
@@ -170,7 +170,7 @@ public class Encounter
     public int GetMagicAttack()
     {
         int weaponEfficiency = 1; // for future implementation.
-        return Unit.Stat.Magic + weaponEfficiency * (Unit.GetEquippedWeapon().Might + GetTriangleDamageModifier());
+        return Unit.Stat.Magic + weaponEfficiency * (Unit.GetEquippedWeapon()!.Might + GetTriangleDamageModifier());
     }
 
     /// <summary>
@@ -236,7 +236,7 @@ public class Encounter
     /// <returns></returns>
     private int GetAttackSpeed()
     {
-        return (int)MathF.Max(Unit.Stat.Speed - (int)MathF.Max(Unit.GetEquippedWeapon().Weight - Unit.Stat.Constitution, 0), 0);
+        return (int)MathF.Max(Unit.Stat.Speed - (int)MathF.Max(Unit.GetEquippedWeapon()!.Weight - Unit.Stat.Constitution, 0), 0);
     }
 
     /// <summary>
@@ -248,7 +248,7 @@ public class Encounter
     /// <returns></returns>
     private int GetHit()
     {
-        return (int)MathF.Max(Unit.GetEquippedWeapon().Hit + 2 * Unit.Stat.Dexterity + Unit.Stat.Luck / 2 + GetTriangleHitModifier(), 0);
+        return (int)MathF.Max(Unit.GetEquippedWeapon()!.Hit + 2 * Unit.Stat.Dexterity + Unit.Stat.Luck / 2 + GetTriangleHitModifier(), 0);
     }
 
     /// <summary>
@@ -282,7 +282,7 @@ public class Encounter
     /// <returns></returns>
     private int GetCrit()
     {
-        return (int)MathF.Max(Unit.GetEquippedWeapon().Crit + Unit.Stat.Dexterity * 2, 0);
+        return (int)MathF.Max(Unit.GetEquippedWeapon()!.Crit + Unit.Stat.Dexterity * 2, 0);
     }
 
     /// <summary>
