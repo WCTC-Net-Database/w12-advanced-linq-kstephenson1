@@ -1,7 +1,6 @@
 ﻿namespace ConsoleRpgEntities.Services;
 
 using ConsoleRpgEntities.Configuration;
-using ConsoleRpgEntities.Data;
 using ConsoleRpgEntities.Models.Combat;
 using ConsoleRpgEntities.Models.Rooms;
 using ConsoleRpgEntities.Models.UI.Character;
@@ -11,22 +10,25 @@ using ConsoleRpgEntities.Services.DataHelpers;
 using ConsoleRpgEntities.Models.Interfaces;
 using ConsoleRpgEntities.Models.Interfaces.Rooms;
 using Spectre.Console;
+using ConsoleRpgEntities.Services.Repositories;
 
 public class CharacterUtilities
 {
-    private CharacterUI _characterUI;
-    private GameContext _db;
-    private LevelUpMenu _levelUpMenu;
-    private RoomMenu _roomMenu;
-    private UnitClassMenu _unitClassMenu;
-    private UnitSelectionMenu _unitSelectionMenu;
+    private readonly CharacterUI _characterUI;
+    private readonly LevelUpMenu _levelUpMenu;
+    private readonly UnitService _unitService;
+    private readonly StatService _statService;
+    private readonly RoomMenu _roomMenu;
+    private readonly UnitClassMenu _unitClassMenu;
+    private readonly UnitSelectionMenu _unitSelectionMenu;
     // CharacterFunctions class contains fuctions that manipulate characters based on user input.
 
-    public CharacterUtilities(CharacterUI characterUI, GameContext db, UnitClassMenu unitClassMenu, LevelUpMenu levelUpMenu, RoomMenu roomMenu, UnitSelectionMenu unitSelectionMenu)
+    public CharacterUtilities(CharacterUI characterUI, UnitClassMenu unitClassMenu, LevelUpMenu levelUpMenu, UnitService unitService, StatService statService, RoomMenu roomMenu, UnitSelectionMenu unitSelectionMenu)
     {
         _characterUI = characterUI;
-        _db = db;
         _levelUpMenu = levelUpMenu;
+        _unitService = unitService;
+        _statService = statService;
         _roomMenu = roomMenu;
         _unitClassMenu = unitClassMenu;
         _unitSelectionMenu = unitSelectionMenu;
@@ -53,18 +55,20 @@ public class CharacterUtilities
 
         character.UnitItems = unitItems;
 
-        Stat stat = new Stat();
-        stat.HitPoints = hitPoints;
-        stat.MaxHitPoints = hitPoints;
-        stat.Movement = 5;
-        stat.Constitution = 5;
-        stat.Strength = 8;
-        stat.Magic = 8;
-        stat.Dexterity = 8;
-        stat.Speed = 8;
-        stat.Luck = 8;
-        stat.Defense = 8;
-        stat.Resistance = 8;
+        Stat stat = new()
+        {
+            HitPoints = hitPoints,
+            MaxHitPoints = hitPoints,
+            Movement = 5,
+            Constitution = 5,
+            Strength = 8,
+            Magic = 8,
+            Dexterity = 8,
+            Speed = 8,
+            Luck = 8,
+            Defense = 8,
+            Resistance = 8
+        };
 
         character.Stat = stat;
 
@@ -73,14 +77,9 @@ public class CharacterUtilities
         {
             character.CurrentRoom = (Room)room;
         }
-        _db.Stats.Add(character.Stat);
-        _db.Units.Add(character);
-        _db.SaveChanges();
-    }
-
-    public T CastObject<T>(object input)
-    {
-        return (T) input;
+        _statService.Add(character.Stat);
+        _unitService.Add(character);
+        _statService.Commit();
     }
 
     public void FindCharacterByName() // Asks the user for a name and displays a character based on input.
@@ -118,7 +117,7 @@ public class CharacterUtilities
 
     private Unit? FindCharacterByName(string name) // Finds and returns a character based on input.
     {
-        Unit unit = _db.Units.Where(c => c.Name.ToUpper() == name.ToUpper()).FirstOrDefault();
+        Unit unit = _unitService.GetAll().Where(c => c.Name.ToUpper() == name.ToUpper()).FirstOrDefault();
         return unit;
     }
 
@@ -131,7 +130,7 @@ public class CharacterUtilities
         if (unit != null)
         {
             int levelModifier = _levelUpMenu.Display($"Choose how to change the level for {unit.Name}", "Go Back");
-            _db.Units.Update(unit);
+            _unitService.Update(unit);
             switch (levelModifier)
             {
                 case -1:
@@ -161,7 +160,7 @@ public class CharacterUtilities
                     break;
             }
             _characterUI.DisplayCharacterInfo(unit);
-            _db.SaveChanges();
+            _unitService.Commit();
         }
         else
         {
@@ -177,7 +176,7 @@ public class CharacterUtilities
         if (unit != null)
         {
             int levelModifier = _levelUpMenu.Display($"Choose how to change the level for {unit.Name}", "Go Back");
-            _db.Units.Update(unit as Unit);
+            _unitService.Update(unit as Unit);
             switch (levelModifier)
             {
                 case -1:
@@ -207,7 +206,7 @@ public class CharacterUtilities
                     break;
             }
             _characterUI.DisplayCharacterInfo(unit);
-            _db.SaveChanges();
+            _unitService.Commit();
         }
         else
         {
@@ -218,7 +217,7 @@ public class CharacterUtilities
     public void DisplayCharacters()                       //Displays each c's information.
     {
         Console.Clear();
-        List<Unit> units = _db.Units.Where(u => !u.UnitType.Contains("Enemy")).ToList();
+        List<Unit> units = _unitService.GetAll().Where(u => !u.UnitType.Contains("Enemy")).ToList();
 
         _characterUI.DisplayCharacterInfo(units);
     }

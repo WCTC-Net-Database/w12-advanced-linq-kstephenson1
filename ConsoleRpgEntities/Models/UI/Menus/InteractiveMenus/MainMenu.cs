@@ -1,5 +1,6 @@
 ﻿using ConsoleRpgEntities.Models.UI.Character;
 using ConsoleRpgEntities.Services;
+using ConsoleRpgEntities.Services.Repositories;
 
 namespace ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
 
@@ -8,13 +9,17 @@ public class MainMenu : InteractiveMenu
     // The MainMenu contains items that have 4 parts, the index, the name, the description, and the action that
     // is completed when that menu item is chosen.  It loops until the menu is exited.
     private CharacterUtilities _characterUtilities;
+    private ItemService _itemService;
     private RoomFactory _roomFactory;
     private RoomUI _roomUI;
-    public MainMenu(CharacterUtilities characterUtilities, RoomFactory roomFactory, RoomUI roomUI)
+    private MainMenuInventory _mainMenuInventory;
+    public MainMenu(CharacterUtilities characterUtilities, ItemService itemService, RoomFactory roomFactory, RoomUI roomUI, MainMenuInventory mainMenuInventory)
     {
         _characterUtilities = characterUtilities;
+        _itemService = itemService;
         _roomFactory = roomFactory;
         _roomUI = roomUI;
+        _mainMenuInventory = mainMenuInventory;
     }
     public void AddMenuItem(string name, string desc, Action action)
     {
@@ -45,6 +50,7 @@ public class MainMenu : InteractiveMenu
         AddMenuItem("New Room", "Creates a new room.", _roomFactory.CreateRoomAndAddToContext);
         AddMenuItem("Edit Character Level", "Level up/down a selected character.", _characterUtilities.LevelUp);
         AddMenuItem("Edit Character Level by List", "Level up/down a selected character.", _characterUtilities.LevelUpByList);
+        AddMenuItem("Inventory Management", "Shows options for inventory management", _mainMenuInventory.Display);
         AddMenuItem(exitMessage, "", DoNothing);
         BuildTable(exitMessage);
     }

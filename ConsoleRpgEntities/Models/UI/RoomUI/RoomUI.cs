@@ -2,6 +2,7 @@
 using ConsoleRpgEntities.Data;
 using ConsoleRpgEntities.Models.Interfaces.Rooms;
 using ConsoleRpgEntities.Models.Rooms;
+using ConsoleRpgEntities.Services.Repositories;
 
 namespace ConsoleRpgEntities.Models.UI.Character;
 
@@ -9,15 +10,15 @@ public class RoomUI
 {
     // RoomUI helps display room information in a nice little table.
 
-    private GameContext _db;
-    public RoomUI(GameContext context)
+    private RoomService _roomService;
+    public RoomUI(RoomService roomService)
     {
-        _db = context;
+        _roomService = roomService;
     }
 
     public void DisplayRooms() // Displays the rooms and their info.
     {
-        List<Room> rooms = _db.Rooms.ToList();
+        List<Room> rooms = _roomService.GetAll().ToList();
 
         // Creates a display table that contains all the other tables to create a nice little display.
         Table displayTable = new Table();

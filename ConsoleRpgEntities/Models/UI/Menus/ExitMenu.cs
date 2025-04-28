@@ -4,7 +4,7 @@ namespace ConsoleRpgEntities.Models.UI.Menus;
 
 public class ExitMenu : Menu
 {
-    // ExitMenu is used to display a message to the user when they exit the game.  It is used to thank the user for
+    // ExitMenu is used to display a message to the user when they _exit the game.  It is used to thank the user for
     // using the game and to provide any other information that may be relevant.
 
     protected Table _table = new();

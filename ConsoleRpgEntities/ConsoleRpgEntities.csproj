@@ -4,7 +4,7 @@
 	<TargetFramework>net9.0</TargetFramework>
 	<RootNamespace>ConsoleRpgEntities</RootNamespace>
 	<Title>Console RPG</Title>
-	<Version>0.0.11</Version>
+	<Version>0.0.12</Version>
 	<Company>kstephenson1</Company>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

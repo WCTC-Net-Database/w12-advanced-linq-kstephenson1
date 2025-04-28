@@ -1,5 +1,4 @@
-﻿using ConsoleRpgEntities.Data;
-using ConsoleRpgEntities.DataTypes;
+﻿using ConsoleRpgEntities.DataTypes;
 using ConsoleRpgEntities.Models.Abilities;
 using ConsoleRpgEntities.Models.Combat;
 using ConsoleRpgEntities.Models.Interfaces;
@@ -7,6 +6,7 @@ using ConsoleRpgEntities.Models.Interfaces.ItemBehaviors;
 using ConsoleRpgEntities.Models.Items;
 using ConsoleRpgEntities.Models.Rooms;
 using ConsoleRpgEntities.Models.Units.Abstracts;
+using ConsoleRpgEntities.Services.Repositories;
 using Spectre.Console;
 
 namespace ConsoleRpgEntities.Models.UI.Character;
@@ -15,10 +15,24 @@ public class CharacterUI
 {
     // CharacterUI helps display character information in a nice little table.
 
-    private GameContext _db;
-    public CharacterUI(GameContext context)
+    AbilityService _abilityService;
+    ItemService _itemService;
+    RoomService _roomService;
+    StatService _statService;
+    UnitItemService _unitItemService;
+
+    public CharacterUI(
+        AbilityService abilityService,
+        ItemService itemService,
+        RoomService roomService,
+        StatService statService,
+        UnitItemService unitItemService)
     {
-        _db = context;
+        _abilityService = abilityService;
+        _itemService = itemService;
+        _roomService = roomService;
+        _statService = statService;
+        _unitItemService = unitItemService;
     }
 
     public void DisplayCharacterInfo(IUnit unit) // Displays the character's info
@@ -30,30 +44,30 @@ public class CharacterUI
     public void DisplayCharacterInfo(List<Unit> units)
     {
         // Every time display characters is m
-        List<Stat> stats = _db.Stats.ToList();
-        List<UnitItem> unitItems = _db.UnitItems.ToList();
-        List<Item> items = _db.Items.ToList();
-        List<Room> rooms = _db.Rooms.ToList();
-        List<Ability> abilities = _db.Abilities.ToList();
+        List<Stat> stats = _statService.GetAll().ToList();
+        List<UnitItem> unitItems = _unitItemService.GetAll().ToList();
+        List<Item> items = _itemService.GetAll().ToList();
+        List<Room> rooms = _roomService.GetAll().ToList();
+        List<Ability> abilities = _abilityService.GetAll().ToList();
 
         foreach (Unit unit in units)
         {
-            Stat stat = stats.Where(s => s.UnitId == unit.UnitId).FirstOrDefault();
+            Stat stat = stats.Where(s => s.UnitId == unit.Id).FirstOrDefault()!;
             List<UnitItem> ui = unitItems.Where(ui => ui.Unit == unit).ToList();
             List<Item> characterItems = new();
             foreach (UnitItem unitItem in ui)
             {
-                Item item = items.Where(i => i.ItemId == unitItem.ItemId).FirstOrDefault();
+                Item item = items.Where(i => i.Id == unitItem.ItemId).FirstOrDefault()!;
                 characterItems.Add(item);
             }
-            Room unitRoom;
+            Room? unitRoom;
             try
             {
-                unitRoom = rooms.Where(r => r.RoomId == unit.CurrentRoom.RoomId).FirstOrDefault();
+                unitRoom = rooms.Where(r => r.Id == unit.CurrentRoom!.Id).FirstOrDefault()!;
             }
             catch { unitRoom = null; }
             List<Ability> unitAbilities = abilities.Where(a => a.Units.Contains(unit)).ToList();
-            DisplayCharacterInfo(unit, stat, characterItems, unitRoom, unitAbilities);
+            DisplayCharacterInfo(unit, stat, characterItems, unitRoom!, unitAbilities);
         }
     }
 
@@ -92,7 +106,7 @@ public class CharacterUI
         Grid invTable = new Grid();
         invTable.AddColumn();
 
-        //Inventory inventory = _db.Inventories.FirstOrDefault(i => i.UnitId == unit.UnitId);
+        //Inventory inventory = _db.Inventories.FirstOrDefault(i => i.Id == unit.Id);
         //var items = from i in _db.Items
         //            where i.InventoryId == unit.Inventory.InventoryId
         //            select i;

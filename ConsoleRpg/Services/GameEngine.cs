@@ -1,21 +1,17 @@
 ﻿using ConsoleRpgEntities.Data;
-using ConsoleRpgEntities.Models.Abilities;
 using ConsoleRpgEntities.Models.UI;
-using ConsoleRpgEntities.Models.Units.Abstracts;
 using ConsoleRpgEntities.Services;
 
 namespace ConsoleRpg.Services;
 
 public class GameEngine
 {
-    private GameContext _db;
-    private SeedHandler _seedHandler;
-    private UserInterface _userInterface;
-    private CombatHandler _combatHandler;
+    private readonly SeedHandler _seedHandler;
+    private readonly UserInterface _userInterface;
+    private readonly CombatHandler _combatHandler;
 
-    public GameEngine(GameContext db, SeedHandler seedHandler, UserInterface userInterface, CombatHandler combatHandler)
+    public GameEngine(SeedHandler seedHandler, UserInterface userInterface, CombatHandler combatHandler)
     {
-        _db = db;
         _seedHandler = seedHandler;
         _userInterface = userInterface;
         _combatHandler = combatHandler;
@@ -31,13 +27,7 @@ public class GameEngine
 
     void Test()
     {
-        // This method is only used for testing purposes and should be removed when the "game" is finished.
-        Unit rogue = _db.Units.Where(u => u.Class == "Rogue").FirstOrDefault();
-        Unit target = _db.Units.FirstOrDefault();
-        Ability steal = _db.Abilities.Where(a => a.Units.Contains(rogue)).FirstOrDefault();
-        rogue.UseAbility(target, steal);
-        
-        rogue.Attack(target);
+
     }
 
     public void Initialization()

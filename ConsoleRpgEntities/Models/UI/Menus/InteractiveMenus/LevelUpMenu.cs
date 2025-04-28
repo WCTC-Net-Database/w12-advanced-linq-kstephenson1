@@ -3,7 +3,7 @@
 public class LevelUpMenu : InteractiveSelectionMenu<int>
 {
     // LevelUpMenu is used to level up or down a unit.  It allows the user to select -1 or 1 to decrease or increase
-    // the unit's level. Returns 0 if the user selects the exit option.
+    // the unit's level. Returns 0 if the user selects the _exit option.
 
 
     public LevelUpMenu()

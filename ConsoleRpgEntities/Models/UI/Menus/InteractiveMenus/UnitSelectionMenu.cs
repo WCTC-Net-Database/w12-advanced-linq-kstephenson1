@@ -1,20 +1,22 @@
-﻿using ConsoleRpgEntities.Data;
-using ConsoleRpgEntities.Models.Combat;
+﻿using ConsoleRpgEntities.Models.Combat;
 using ConsoleRpgEntities.Models.Interfaces;
 using ConsoleRpgEntities.Models.Units.Abstracts;
+using ConsoleRpgEntities.Services.Repositories;
 
 namespace ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
 
 public class UnitSelectionMenu : InteractiveSelectionMenu<IUnit>
 {
-    // UnitSelectionMenu is used to select a unit from a list of units.  It takes in a prompt and an exit message,
+    // UnitSelectionMenu is used to select a unit from a list of units.  It takes in a prompt and an _exit message,
     // and displays a list of units to select from. It returns the selected unit or null if the user exits the menu.
 
-    private readonly GameContext _db;
+    private readonly UnitService _unitService;
+    private readonly StatService _statService;
 
-    public UnitSelectionMenu(GameContext context)
+    public UnitSelectionMenu(StatService statService, UnitService unitService)
     {
-        _db = context;
+        _unitService = unitService;
+        _statService = statService;
     }
 
     public override IUnit Display(string prompt, string exitMessage   )
@@ -38,8 +40,8 @@ public class UnitSelectionMenu : InteractiveSelectionMenu<IUnit>
     {
         _menuItems = new();
 
-        List<Unit> units = _db.Units.ToList();
-        List<Stat> stats = _db.Stats.ToList();
+        IEnumerable<Unit> units = _unitService.GetAll();
+        IEnumerable<Stat> stats = _statService.GetAll();
         List<Unit> characters = new();
         List<Unit> monsters = new();
         foreach(Unit unit in units)
@@ -57,7 +59,7 @@ public class UnitSelectionMenu : InteractiveSelectionMenu<IUnit>
         // Adds all the characters to the unit list using green letters.
         foreach (IUnit unit in characters)
         {
-            Stat stat = stats.FirstOrDefault(s => s.UnitId == unit.UnitId);
+            Stat stat = stats.FirstOrDefault(s => s.UnitId == unit.Id);
 
             // Strikethrough and dim the unit info if the unit is not alive.
             if (stat.HitPoints <= 0)
@@ -72,7 +74,7 @@ public class UnitSelectionMenu : InteractiveSelectionMenu<IUnit>
         // Adds all the monsters to the unit list using red letters.
         foreach (IUnit unit in monsters)
         {
-            Stat stat = stats.FirstOrDefault(s => s.UnitId == unit.UnitId);
+            Stat stat = stats.FirstOrDefault(s => s.UnitId == unit.Id);
 
             if (stat.HitPoints <= 0)
             {

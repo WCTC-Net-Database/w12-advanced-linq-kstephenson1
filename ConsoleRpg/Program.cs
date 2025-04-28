@@ -19,19 +19,18 @@ class Program
         Console.Title = $"{title} v{version} by {author}";
 
         // Configures the services for dependency injection.
-        ServiceCollection serviceCollection = new ServiceCollection();
+        IServiceCollection serviceCollection = new ServiceCollection();
         Startup.ConfigureServices(serviceCollection);
 
         // Builds the service provider and retrieves the required services.
-        ServiceProvider provider = serviceCollection.BuildServiceProvider();
+        IServiceProvider provider = serviceCollection.BuildServiceProvider();
 
-        GameContext db = provider.GetRequiredService<GameContext>();
         SeedHandler seedHandler = provider.GetRequiredService<SeedHandler>();
         UserInterface userInterface = provider.GetRequiredService<UserInterface>();
         CombatHandler combatHandler = provider.GetRequiredService<CombatHandler>();
 
         // Creates the game engine and starts it. The game engine is the main class that runs the game.
-        GameEngine engine = new GameEngine(db, seedHandler, userInterface, combatHandler);
+        GameEngine engine = new(seedHandler, userInterface, combatHandler);
         engine.StartGameEngine();
     }
 }

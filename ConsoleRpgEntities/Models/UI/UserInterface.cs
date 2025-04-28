@@ -11,16 +11,18 @@ public class UserInterface
     public ItemCommandMenu ItemCommandMenu { get; private set; } = new();
     public InventoryMenu InventoryMenu { get; private set; } = new();
     public MainMenu MainMenu { get; private set; }
+    public MainMenuInventory MainMenuInventory { get; private set; }
     public UnitSelectionMenu UnitSelectionMenu { get; private set; }
     public UnitClassMenu UnitClassMenu { get; private set; }
 
-    public UserInterface(MainMenu mainMenu, UnitSelectionMenu unitSelectionMenu, ExitMenu exitMenu, CommandMenu commandMenu, InventoryMenu inventoryMenu, ItemCommandMenu itemCommandMenu, UnitClassMenu unitClassMenu)
+    public UserInterface(MainMenu mainMenu, MainMenuInventory mainMenuInventory, UnitSelectionMenu unitSelectionMenu, ExitMenu exitMenu, CommandMenu commandMenu, InventoryMenu inventoryMenu, ItemCommandMenu itemCommandMenu, UnitClassMenu unitClassMenu)
     {
         CommandMenu = commandMenu;
         ExitMenu = exitMenu;
         ItemCommandMenu = itemCommandMenu;
         InventoryMenu = inventoryMenu;
         MainMenu = mainMenu;
+        MainMenuInventory = mainMenuInventory;
         UnitSelectionMenu = unitSelectionMenu;
         UnitClassMenu = unitClassMenu;
     }

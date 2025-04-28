@@ -1,15 +1,15 @@
 ﻿using ConsoleRpgEntities.Models.Rooms;
 using ConsoleRpgEntities.Services.DataHelpers;
-using ConsoleRpgEntities.Data;
+using ConsoleRpgEntities.Services.Repositories;
 
 namespace ConsoleRpgEntities.Services;
 
 public class RoomFactory
 {
-    private GameContext _db;
-    public RoomFactory(GameContext context)
+    private RoomService _roomService;
+    public RoomFactory(RoomService roomService)
     {
-        _db = context;
+        _roomService = roomService;
     }
 
     public void CreateRoomAndAddToContext()
@@ -22,8 +22,8 @@ public class RoomFactory
         string name = Input.GetString("Enter Name for new room:");
         string desc = Input.GetString($"Enter Description for room \"{name}\": ");
         Room room = new(name, desc);
-        _db.Rooms.Add(room);
-        _db.SaveChanges();
+        _roomService.Add(room);
+        _roomService.Commit();
         Console.WriteLine($"Room \"{name}\" with description \"{desc}\" has been added to the game.");
     }
     public Room CreateRoom(string roomType)

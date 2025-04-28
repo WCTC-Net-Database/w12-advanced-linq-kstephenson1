@@ -1,17 +1,17 @@
-﻿using ConsoleRpgEntities.Data;
-using ConsoleRpgEntities.Models.Interfaces;
+﻿using ConsoleRpgEntities.Models.Interfaces;
+using ConsoleRpgEntities.Services.Repositories;
 
 namespace ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
 
 public class ItemListMenu : InteractiveSelectionMenu<IItem>
 {
-    // ItemListMenu is used to display a list of items in the game.  It takes in a prompt and an exit message, and
+    // ItemListMenu is used to display a list of items in the game.  It takes in a prompt and an _exit message, and
     // displays a list of items in the game and returns the selected item.
-    private GameContext _db;
+    private ItemService _itemService;
 
-    public ItemListMenu(GameContext context)
+    public ItemListMenu(ItemService itemService)
     {
-        _db = context;
+        _itemService = itemService;
     }
 
     public override void Display(string errorMessage)
@@ -39,7 +39,7 @@ public class ItemListMenu : InteractiveSelectionMenu<IItem>
     public override void Update(string exitMessage)
     {
         _menuItems = new();
-        List<IItem> items = [.. _db.Items.ToList()];
+        List<IItem> items = [.. _itemService.GetAll().ToList()];
 
         foreach (IItem item in items)
         {

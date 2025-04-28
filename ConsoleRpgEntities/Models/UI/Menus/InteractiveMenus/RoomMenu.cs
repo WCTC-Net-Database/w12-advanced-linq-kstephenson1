@@ -1,17 +1,18 @@
 ﻿using ConsoleRpgEntities.Models.Rooms;
 using ConsoleRpgEntities.Data;
 using ConsoleRpgEntities.Models.Interfaces.Rooms;
+using ConsoleRpgEntities.Services.Repositories;
 
 namespace ConsoleRpgEntities.Models.UI.Menus.InteractiveMenus;
 
 public class RoomMenu : InteractiveSelectionMenu<IRoom>
 {
-    private GameContext _db;
+    private RoomService _roomService;
     // The RoomMenu contains items that have 4 parts, the index, the name, the description, and a room.
 
-    public RoomMenu(GameContext context)
+    public RoomMenu(RoomService roomService)
     {
-        _db = context;
+        _roomService = roomService;
     }
 
     public override void Display(string errorMessage)
@@ -39,7 +40,7 @@ public class RoomMenu : InteractiveSelectionMenu<IRoom>
     public override void Update(string exitMessage)
     {
         _menuItems = new();
-        List<Room> rooms = _db.Rooms.ToList();
+        List<Room> rooms = _roomService.GetAll().ToList();
 
         foreach (Room room in rooms)
         {
