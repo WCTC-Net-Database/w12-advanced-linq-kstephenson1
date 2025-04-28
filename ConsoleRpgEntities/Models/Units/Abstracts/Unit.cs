@@ -13,14 +13,15 @@ using ConsoleRpgEntities.Models.Interfaces;
 using ConsoleRpgEntities.Models.Interfaces.InventoryBehaviors;
 using ConsoleRpgEntities.Models.Interfaces.ItemBehaviors;
 using ConsoleRpgEntities.Models.Interfaces.UnitBehaviors;
+using ConsoleRpgEntities.Services.Repositories;
 
 namespace ConsoleRpgEntities.Models.Units.Abstracts;
 
-public abstract class Unit : IUnit, ITargetable, IAttack, IHaveInventory
+public abstract class Unit : IUnit, ITargetable, IAttack, IHaveInventory, IEntity
 {
     // Unit is an abstract class that holds basic unit properties and functions.
     [Key]
-    public int UnitId { get; set; }
+    public int Id { get; set; }
     public abstract string UnitType { get; set; }
     public virtual string Name { get; set; }
     public virtual string Class { get; set; }

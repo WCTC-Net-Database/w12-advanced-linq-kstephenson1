@@ -1,11 +1,12 @@
 ﻿using ConsoleRpgEntities.Models.Units.Abstracts;
+using ConsoleRpgEntities.Services.Repositories;
 
 namespace ConsoleRpgEntities.Models.Abilities;
 
-public abstract class Ability
+public abstract class Ability : IEntity
 {
     // Ability is an abstract class that holds basic ability properties and functions.
-    public int AbilityId { get; set; }
+    public int Id { get; set; }
     public abstract string AbilityType { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }

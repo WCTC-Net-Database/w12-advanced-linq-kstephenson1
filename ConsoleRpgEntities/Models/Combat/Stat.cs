@@ -1,12 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ConsoleRpgEntities.Models.Units.Abstracts;
+using ConsoleRpgEntities.Services.Repositories;
 
 namespace ConsoleRpgEntities.Models.Combat;
 
-public class Stat
+public class Stat : IEntity
 {
     // Stat is a class that holds the stats of a unit.
+    public int Id => UnitId;
 
     [Key, ForeignKey("Unit")]
     public int UnitId { get; set; }

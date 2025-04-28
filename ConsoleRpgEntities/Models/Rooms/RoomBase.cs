@@ -1,13 +1,14 @@
 ﻿using ConsoleRpgEntities.DataTypes;
 using ConsoleRpgEntities.Models.Units.Abstracts;
 using ConsoleRpgEntities.Models.Interfaces.Rooms;
+using ConsoleRpgEntities.Services.Repositories;
 
 namespace ConsoleRpgEntities.Models.Rooms;
 
-public abstract class RoomBase : IRoom
+public abstract class RoomBase : IRoom, IEntity
 {
     // RoomBase is an abstract class that holds basic room properties and functions.
-    public int RoomId { get; set; }
+    public int Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public virtual List<Unit>? Units { get; set; } = new();

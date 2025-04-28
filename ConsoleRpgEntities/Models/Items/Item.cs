@@ -1,13 +1,14 @@
 ﻿using ConsoleRpgEntities.Models.Units.Abstracts;
 using ConsoleRpgEntities.Models.Interfaces;
+using ConsoleRpgEntities.Services.Repositories;
 
 namespace ConsoleRpgEntities.Models.Items;
 
-public abstract class Item : IItem
+public abstract class Item : IItem, IEntity
 {
     // Item is an abstract class that represents an item in the game. It has a name, description, and a list of units
     // to establish a relationship between the item and the unit.
-    public int ItemId { get; set; }
+    public int Id { get; set; }
     public abstract string ItemType { get; set; }
     public virtual List<Unit> Units { get; set; }
     public virtual List<UnitItem> UnitItems { get; set; }
