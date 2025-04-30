@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsoleRpgEntities.Migrations
 {
     [DbContext(typeof(GameContext))]
-    [Migration("20250427194527_InitialCreate")]
+    [Migration("20250430040521_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -158,6 +158,9 @@ namespace ConsoleRpgEntities.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Weight")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -359,10 +362,6 @@ namespace ConsoleRpgEntities.Migrations
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("int");
 
-                    b.Property<int>("Weight")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("int");
-
                     b.HasDiscriminator().HasValue("ChestArmorItem");
                 });
 
@@ -396,10 +395,6 @@ namespace ConsoleRpgEntities.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Resistance")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("int");
-
-                    b.Property<int>("Weight")
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("int");
 
@@ -439,10 +434,6 @@ namespace ConsoleRpgEntities.Migrations
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("int");
 
-                    b.Property<int>("Weight")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("int");
-
                     b.HasDiscriminator().HasValue("HeadArmorItem");
                 });
 
@@ -476,10 +467,6 @@ namespace ConsoleRpgEntities.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Resistance")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("int");
-
-                    b.Property<int>("Weight")
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("int");
 
@@ -526,10 +513,6 @@ namespace ConsoleRpgEntities.Migrations
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("int");
 
-                    b.Property<int>("Weight")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("int");
-
                     b.HasDiscriminator().HasValue("MagicWeaponItem");
                 });
 
@@ -570,10 +553,6 @@ namespace ConsoleRpgEntities.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("WeaponType")
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("int");
-
-                    b.Property<int>("Weight")
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("int");
 
