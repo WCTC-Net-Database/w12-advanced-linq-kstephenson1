@@ -17,7 +17,7 @@ using ConsoleRpgEntities.Services.Repositories;
 
 namespace ConsoleRpgEntities.Models.Units.Abstracts;
 
-public abstract class Unit : IUnit, ITargetable, IAttack, IHaveInventory, IEntity
+public abstract class Unit : IUnit, ITargetable, IAttack, IHaveInventory, IDatabaseEntity
 {
     // Unit is an abstract class that holds basic unit properties and functions.
     [Key]
@@ -180,5 +180,6 @@ public abstract class Unit : IUnit, ITargetable, IAttack, IHaveInventory, IEntit
 
     public IEquippableWeapon? GetEquippedWeapon() => InventoryHelper.GetEquippedWeapon(this);
     public IEquippableArmor? GetEquippedArmorInSlot(ArmorType armorType) => InventoryHelper.GetEquippedArmorInSlot(this, armorType);
+    public int GetCarryWeight() => Stat.GetCarryWeight();
 
 }

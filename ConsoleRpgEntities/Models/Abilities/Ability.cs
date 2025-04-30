@@ -3,7 +3,7 @@ using ConsoleRpgEntities.Services.Repositories;
 
 namespace ConsoleRpgEntities.Models.Abilities;
 
-public abstract class Ability : IEntity
+public abstract class Ability : IDatabaseEntity
 {
     // Ability is an abstract class that holds basic ability properties and functions.
     public int Id { get; set; }

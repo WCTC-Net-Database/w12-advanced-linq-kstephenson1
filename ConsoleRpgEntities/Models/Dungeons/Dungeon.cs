@@ -5,7 +5,7 @@ using ConsoleRpgEntities.Services.Repositories;
 
 namespace ConsoleRpgEntities.Models.Dungeons;
 
-public class Dungeon : IEntity
+public class Dungeon : IDatabaseEntity
 {
     // Dungeon is a class that represents a dungeon in the game. It contains a collection of rooms, a starting room,
     // and a navigation menu for the player to navigate through the dungeon. The player can enter the dungeon and

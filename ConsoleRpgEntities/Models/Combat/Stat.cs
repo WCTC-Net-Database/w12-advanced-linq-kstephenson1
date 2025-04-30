@@ -5,7 +5,7 @@ using ConsoleRpgEntities.Services.Repositories;
 
 namespace ConsoleRpgEntities.Models.Combat;
 
-public class Stat : IEntity
+public class Stat : IDatabaseEntity
 {
     // Stat is a class that holds the stats of a unit.
     public int Id => UnitId;
@@ -32,4 +32,9 @@ public class Stat : IEntity
     public int Resistance { get; set; }         // RES
 
     public Stat() { }
+
+    public int GetCarryWeight()
+    {
+        return (Constitution + Strength) * 2;
+    }
 }

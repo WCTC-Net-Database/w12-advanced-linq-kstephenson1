@@ -5,7 +5,7 @@ using ConsoleRpgEntities.Services.Repositories;
 
 namespace ConsoleRpgEntities.Models.Rooms;
 
-public abstract class RoomBase : IRoom, IEntity
+public abstract class RoomBase : IRoom, IDatabaseEntity
 {
     // RoomBase is an abstract class that holds basic room properties and functions.
     public int Id { get; set; }
