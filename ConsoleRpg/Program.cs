@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using ConsoleRpg.Services;
-using ConsoleRpgEntities.Configuration;
 using ConsoleRpgEntities.Data;
 using ConsoleRpgEntities.Models.UI;
 using ConsoleRpgEntities.Services;
