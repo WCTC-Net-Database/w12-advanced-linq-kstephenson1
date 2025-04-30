@@ -4,7 +4,7 @@ using ConsoleRpgEntities.Services.Repositories;
 
 namespace ConsoleRpgEntities.Models.Items;
 
-public abstract class Item : IItem, IEntity
+public abstract class Item : IItem, IDatabaseEntity
 {
     // Item is an abstract class that represents an item in the game. It has a name, description, and a list of units
     // to establish a relationship between the item and the unit.
@@ -14,6 +14,7 @@ public abstract class Item : IItem, IEntity
     public virtual List<UnitItem> UnitItems { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
+    public int Weight { get; set; }
 
     public Item() { }
 

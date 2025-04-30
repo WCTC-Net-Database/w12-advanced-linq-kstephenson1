@@ -247,10 +247,10 @@ public class SeedHandler
         _itemCloak = new("Cloak", "A basic cloak", ArmorType.Chest, Rank.E, 30, 0, 2, 1, 1);
         _itemPants = new("Pants", "A basic pants", ArmorType.Legs, Rank.E, 30, 0, 2, 1, 1);
         _itemShoes = new("Shoes", "A basic shoes", ArmorType.Feet, Rank.E, 30, 0, 2, 1, 1);
-        _itemCap = new("Leather Cap", "A basic leather cap", ArmorType.Head, Rank.E, 30, 1, 1, 3, 1);
-        _itemTunic = new("Leather Tunic", "A basic leather tunic", ArmorType.Chest, Rank.E, 30, 1, 1, 3, 1);
-        _itemStuddedPants = new("Studded Pants", "A basic studded pants", ArmorType.Legs, Rank.E, 30, 1, 1, 3, 1);
-        _itemBoots = new("Leather Boots", "A basic leather boots", ArmorType.Feet, Rank.E, 30, 1, 1, 3, 1);
+        _itemCap = new("Leather Cap", "A basic leather cap", ArmorType.Head, Rank.E, 30, 1, 1, 2, 1);
+        _itemTunic = new("Leather Tunic", "A basic leather tunic", ArmorType.Chest, Rank.E, 30, 1, 1, 2, 1);
+        _itemStuddedPants = new("Studded Pants", "A basic studded pants", ArmorType.Legs, Rank.E, 30, 1, 1, 2, 1);
+        _itemBoots = new("Leather Boots", "A basic leather boots", ArmorType.Feet, Rank.E, 30, 1, 1, 2, 1);
         _itemHelm = new("Helm", "A basic plate helm", ArmorType.Head, Rank.E, 30, 2, 0, 3, 1);
         _itemPlate = new("Plate Armor", "A basic plate armor", ArmorType.Chest, Rank.E, 30, 2, 0, 3, 1);
         _itemGreaves = new("Greaves", "A basic plate greaves", ArmorType.Legs, Rank.E, 30, 2, 0, 3, 1);
