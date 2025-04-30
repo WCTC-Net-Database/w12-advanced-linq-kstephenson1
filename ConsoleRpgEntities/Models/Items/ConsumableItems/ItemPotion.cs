@@ -13,6 +13,7 @@ public class ItemPotion : ConsumableItem, IConsumableItem
     {
         Name = "Potion";
         Description = "Use to restore 10 hp.";
+        Weight = 1;
         MaxUses = 3;
         UsesLeft = MaxUses;
     }

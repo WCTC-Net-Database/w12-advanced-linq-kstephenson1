@@ -14,6 +14,7 @@ public class ItemLockpick : ConsumableItem, IConsumableItem
     {
         Name = "Lockpick";
         Description = "Use to unlock a nearby door or chest.";
+        Weight = 1;
         MaxUses = 5;
         UsesLeft = MaxUses;
     }

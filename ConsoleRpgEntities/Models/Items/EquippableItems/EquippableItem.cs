@@ -11,7 +11,6 @@ public abstract class EquippableItem : Item, IEquippableItem
     public Rank RequiredRank { get; set; }
     public int MaxDurability { get; set; }
     public int Durability { get; set; }
-    public int Weight { get; set; }
     public int ExpModifier { get; set; }
 
     protected EquippableItem() { }

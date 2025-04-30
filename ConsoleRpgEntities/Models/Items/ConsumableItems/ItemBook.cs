@@ -15,6 +15,7 @@ public class ItemBook : ConsumableItem, IConsumableItem
     {
         Name = "Book";
         Description = "Use to read the book.";
+        Weight = 1;
         MaxUses = 10;
         UsesLeft = MaxUses;
     }
