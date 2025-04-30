@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
 [PrimaryKey("UnitId", "ItemId")]
-public class UnitItem : IEntity
+public class UnitItem : IDatabaseEntity
 {
     // UnitItem is a class that holds the properties of an item that is owned by a unit. It is used to store the
     // properties of an item that is owned by a unit.
