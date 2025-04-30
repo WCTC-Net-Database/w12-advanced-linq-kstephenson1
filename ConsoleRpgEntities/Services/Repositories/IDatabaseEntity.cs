@@ -1,5 +1,5 @@
 ﻿namespace ConsoleRpgEntities.Services.Repositories;
-public interface IEntity
+public interface IDatabaseEntity
 {
     public int Id { get; }
 }

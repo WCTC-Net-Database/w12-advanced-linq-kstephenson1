@@ -1,10 +1,8 @@
-﻿using ConsoleRpgEntities.Models.Items;
-
-namespace ConsoleRpgEntities.Services.Repositories;
+﻿namespace ConsoleRpgEntities.Services.Repositories;
 public class UnitItemService : IService<UnitItem>
 {
-    private readonly Repository<UnitItem> _repo;
-    public UnitItemService(Repository<UnitItem> repo)
+    private readonly IRepository<UnitItem> _repo;
+    public UnitItemService(IRepository<UnitItem> repo)
     {
         _repo = repo;
     }

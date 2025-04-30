@@ -2,7 +2,7 @@
 
 namespace ConsoleRpgEntities.Services.Repositories;
 
-public interface IService<T> where T : class, IEntity
+public interface IService<T> where T : class, IDatabaseEntity
 {
     void Add(T entity);
     void Update(T entity);

@@ -3,8 +3,8 @@
 namespace ConsoleRpgEntities.Services.Repositories;
 public class UnitService : IService<Unit>
 {
-    private readonly Repository<Unit> _repo;
-    public UnitService(Repository<Unit> repo)
+    private readonly IRepository<Unit> _repo;
+    public UnitService(IRepository<Unit> repo)
     {
         _repo = repo;
     }

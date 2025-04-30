@@ -8,8 +8,8 @@ using Spectre.Console;
 namespace ConsoleRpgEntities.Services.Repositories;
 public class ItemService : IService<Item>
 {
-    private readonly Repository<Item> _repo;
-    public ItemService(Repository<Item> repo)
+    private readonly IRepository<Item> _repo;
+    public ItemService(IRepository<Item> repo)
     {
         _repo = repo;
     }

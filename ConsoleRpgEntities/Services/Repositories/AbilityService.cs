@@ -3,8 +3,8 @@
 namespace ConsoleRpgEntities.Services.Repositories;
 public class AbilityService : IService<Ability>
 {
-    private readonly Repository<Ability> _repo;
-    public AbilityService(Repository<Ability> repo)
+    private readonly IRepository<Ability> _repo;
+    public AbilityService(IRepository<Ability> repo)
     {
         _repo = repo;
     }

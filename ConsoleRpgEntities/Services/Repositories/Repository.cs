@@ -8,7 +8,7 @@ using ConsoleRpgEntities.Models.Units.Abstracts;
 using Microsoft.EntityFrameworkCore;
 
 namespace ConsoleRpgEntities.Services.Repositories;
-public class Repository<T> : IRepository<T> where T : class, IEntity
+public class Repository<T> : IRepository<T> where T : class, IDatabaseEntity
 {
     private readonly GameContext _db;
     public DbSet<T> Entities { get; private set; }

@@ -3,8 +3,8 @@
 namespace ConsoleRpgEntities.Services.Repositories;
 public class RoomService : IService<Room>
 {
-    private readonly Repository<Room> _repo;
-    public RoomService(Repository<Room> repo)
+    private readonly IRepository<Room> _repo;
+    public RoomService(IRepository<Room> repo)
     {
         _repo = repo;
     }

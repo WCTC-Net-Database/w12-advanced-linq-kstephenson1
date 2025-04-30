@@ -60,18 +60,18 @@ public static class Startup
         .UseSqlServer(configuration.GetConnectionString("DbConnection"))
         .UseLazyLoadingProxies());
         services.AddTransient<InventoryMenu>();
+        services.AddTransient<IRepository<Ability>,Repository<Ability>>();
+        services.AddTransient<IRepository<Dungeon>, Repository<Dungeon>>();
+        services.AddTransient<IRepository<Item>, Repository<Item>>();
+        services.AddTransient<IRepository<Room>, Repository<Room>>();
+        services.AddTransient<IRepository<Stat>, Repository<Stat>>();
+        services.AddTransient<IRepository<Unit>, Repository<Unit>>();
+        services.AddTransient<IRepository<UnitItem>, Repository<UnitItem>>();
         services.AddTransient<ItemCommandMenu>();
         services.AddTransient<ItemService>();
         services.AddTransient<LevelUpMenu>();
         services.AddTransient<MainMenu>();
         services.AddTransient<MainMenuInventory>();
-        services.AddTransient<Repository<Ability>>();
-        services.AddTransient<Repository<Dungeon>>();
-        services.AddTransient<Repository<Item>>();
-        services.AddTransient<Repository<Room>>();
-        services.AddTransient<Repository<Stat>>();
-        services.AddTransient<Repository<Unit>>();
-        services.AddTransient<Repository<UnitItem>>();
         services.AddTransient<RoomFactory>();
         services.AddTransient<RoomMenu>();
         services.AddTransient<RoomNavigationMenu>();

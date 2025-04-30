@@ -3,8 +3,8 @@
 namespace ConsoleRpgEntities.Services.Repositories;
 public class StatService : IService<Stat>
 {
-    private readonly Repository<Stat> _repo;
-    public StatService(Repository<Stat> repo)
+    private readonly IRepository<Stat> _repo;
+    public StatService(IRepository<Stat> repo)
     {
         _repo = repo;
     }

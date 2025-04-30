@@ -3,8 +3,8 @@
 namespace ConsoleRpgEntities.Services.Repositories;
 public class DungeonService : IService<Dungeon>
 {
-    private readonly Repository<Dungeon> _repo;
-    public DungeonService(Repository<Dungeon> repo)
+    private readonly IRepository<Dungeon> _repo;
+    public DungeonService(IRepository<Dungeon> repo)
     {
         _repo = repo;
     }
