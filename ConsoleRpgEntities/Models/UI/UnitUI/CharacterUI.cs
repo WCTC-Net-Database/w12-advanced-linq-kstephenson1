@@ -43,22 +43,14 @@ public class CharacterUI
 
     public void DisplayCharacterInfo(List<Unit> units)
     {
-        // Every time display characters is m
-        List<Stat> stats = _statService.GetAll().ToList();
-        List<UnitItem> unitItems = _unitItemService.GetAll().ToList();
-        List<Item> items = _itemService.GetAll().ToList();
         List<Room> rooms = _roomService.GetAll().ToList();
-        List<Ability> abilities = _abilityService.GetAll().ToList();
 
         foreach (Unit unit in units)
         {
-            Stat stat = stats.Where(s => s.UnitId == unit.Id).FirstOrDefault()!;
-            List<UnitItem> ui = unitItems.Where(ui => ui.Unit == unit).ToList();
             List<Item> characterItems = new();
-            foreach (UnitItem unitItem in ui)
+            foreach (UnitItem unitItem in unit.UnitItems)
             {
-                Item item = items.Where(i => i.Id == unitItem.ItemId).FirstOrDefault()!;
-                characterItems.Add(item);
+                characterItems.Add(unitItem.Item);
             }
             Room? unitRoom;
             try
@@ -66,8 +58,7 @@ public class CharacterUI
                 unitRoom = rooms.Where(r => r.Id == unit.CurrentRoom!.Id).FirstOrDefault()!;
             }
             catch { unitRoom = null; }
-            List<Ability> unitAbilities = abilities.Where(a => a.Units.Contains(unit)).ToList();
-            DisplayCharacterInfo(unit, stat, characterItems, unitRoom!, unitAbilities);
+            DisplayCharacterInfo(unit, unit.Stat, characterItems, unitRoom!, unit.Abilities);
         }
     }
 
@@ -106,10 +97,6 @@ public class CharacterUI
         Grid invTable = new Grid();
         invTable.AddColumn();
 
-        //Inventory inventory = _db.Inventories.FirstOrDefault(i => i.Id == unit.Id);
-        //var items = from i in _db.Items
-        //            where i.InventoryId == unit.Inventory.InventoryId
-        //            select i;
         List<IEquippableItem> equippedInventory = new();
 
         IEquippableWeapon? weapon = unit.GetEquippedWeapon();

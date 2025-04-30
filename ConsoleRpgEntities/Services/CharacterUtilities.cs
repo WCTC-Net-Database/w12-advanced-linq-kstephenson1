@@ -1,6 +1,6 @@
 ﻿namespace ConsoleRpgEntities.Services;
 
-using ConsoleRpgEntities.Configuration;
+using ConsoleRpgEntities.Config;
 using ConsoleRpgEntities.Models.Combat;
 using ConsoleRpgEntities.Models.Rooms;
 using ConsoleRpgEntities.Models.UI.Character;
