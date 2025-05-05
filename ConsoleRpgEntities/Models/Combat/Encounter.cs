@@ -75,11 +75,11 @@ public class Encounter
         {
             if (Unit.GetEquippedWeapon() is PhysicalWeaponItem)
             {
-                return (int)MathF.Max(GetDamage(), 0) + (int)MathF.Max(GetDamage(), 0);
+                return (int)MathF.Max(GetDamage(), 0) * 3;
             }
             else if (Unit.GetEquippedWeapon() is MagicWeaponItem)
             {
-                return (int)MathF.Max(GetMagicDamage(), 0) + (int)MathF.Max(GetMagicDamage(), 0);
+                return (int)MathF.Max(GetMagicDamage(), 0) * 3;
             }
             
         }

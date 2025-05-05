@@ -33,7 +33,7 @@ public class Stat : IDatabaseEntity
 
     public Stat() { }
 
-    public int GetCarryWeight()
+    public int GetMaxCarryWeight()
     {
         return (Constitution + Strength) * 2;
     }

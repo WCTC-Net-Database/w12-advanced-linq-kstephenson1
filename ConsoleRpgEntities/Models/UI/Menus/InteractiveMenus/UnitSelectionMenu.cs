@@ -41,7 +41,6 @@ public class UnitSelectionMenu : InteractiveSelectionMenu<IUnit>
         _menuItems = new();
 
         IEnumerable<Unit> units = _unitService.GetAll();
-        IEnumerable<Stat> stats = _statService.GetAll();
         List<Unit> characters = new();
         List<Unit> monsters = new();
         foreach(Unit unit in units)
@@ -59,10 +58,8 @@ public class UnitSelectionMenu : InteractiveSelectionMenu<IUnit>
         // Adds all the characters to the unit list using green letters.
         foreach (IUnit unit in characters)
         {
-            Stat stat = stats.FirstOrDefault(s => s.UnitId == unit.Id);
-
             // Strikethrough and dim the unit info if the unit is not alive.
-            if (stat.HitPoints <= 0)
+            if (unit.Stat.HitPoints <= 0)
             {
                 AddMenuItem($"[green][dim][strikethrough]{unit.Name} Level {unit.Level} {unit.Class}[/][/][/]", $" {unit.GetHealthBar()}", unit);
             }
@@ -74,9 +71,7 @@ public class UnitSelectionMenu : InteractiveSelectionMenu<IUnit>
         // Adds all the monsters to the unit list using red letters.
         foreach (IUnit unit in monsters)
         {
-            Stat stat = stats.FirstOrDefault(s => s.UnitId == unit.Id);
-
-            if (stat.HitPoints <= 0)
+            if (unit.Stat.HitPoints <= 0)
             {
                 // Strikethrough and dim the unit info if the unit is not alive.
                 AddMenuItem($"[red][dim][strikethrough]{unit.Name} Level {unit.Level} {unit.Class}[/][/][/]", $" {unit.GetHealthBar()}", unit);

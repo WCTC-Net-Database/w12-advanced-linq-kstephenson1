@@ -34,7 +34,7 @@ public class ItemPotion : ConsumableItem, IConsumableItem
         {
             int preItemHP = unit.Stat.HitPoints;
             unit.Heal(10);
-            int postItemHP = unit.Stat.MaxHitPoints;
+            int postItemHP = unit.Stat.HitPoints;
             int healedHP = postItemHP - preItemHP;
             Console.WriteLine($"{unit.Name} used {Name} and gained {healedHP} hit points");
             UsesLeft--;

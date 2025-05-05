@@ -285,9 +285,9 @@ public class SeedHandler
             Class = "Fighter",
             Level = 1
         };
-        AddItem(unit, _itemIronSword, EquipmentSlot.Weapon);
-        AddItem(unit, _itemTunic, EquipmentSlot.Chest);
-        AddItem(unit, _itemPotion);
+        InventoryHelper.AddItemToInventory(unit, _itemIronSword, EquipmentSlot.Weapon);
+        InventoryHelper.AddItemToInventory(unit, _itemTunic, EquipmentSlot.Chest);
+        InventoryHelper.AddItemToInventory(unit, _itemPotion);
         unit.Stat = new Stat
         {
             HitPoints = 28,
@@ -316,10 +316,10 @@ public class SeedHandler
             Class = "Wizard",
             Level = 2
         };
-        AddItem(unit, _itemDarkStaff, EquipmentSlot.Weapon);
-        AddItem(unit, _itemHood, EquipmentSlot.Head);
-        AddItem(unit, _itemPotion, EquipmentSlot.Weapon);
-        AddItem(unit, _itemBook, EquipmentSlot.Weapon);
+        InventoryHelper.AddItemToInventory(unit, _itemDarkStaff, EquipmentSlot.Weapon);
+        InventoryHelper.AddItemToInventory(unit, _itemHood, EquipmentSlot.Head);
+        InventoryHelper.AddItemToInventory(unit, _itemPotion, EquipmentSlot.Weapon);
+        InventoryHelper.AddItemToInventory(unit, _itemBook, EquipmentSlot.Weapon);
 
 
         unit.Stat = new Stat
@@ -348,11 +348,11 @@ public class SeedHandler
             Class = "Rogue",
             Level = 3
         };
-        AddItem(unit, _itemLockpick);
-        AddItem(unit, _itemObsidianSword, EquipmentSlot.Weapon);
-        AddItem(unit, _itemPants, EquipmentSlot.Legs);
-        AddItem(unit, _itemShoes, EquipmentSlot.Feet);
-        AddItem(unit, _itemPotion);
+        InventoryHelper.AddItemToInventory(unit, _itemLockpick);
+        InventoryHelper.AddItemToInventory(unit, _itemObsidianSword, EquipmentSlot.Weapon);
+        InventoryHelper.AddItemToInventory(unit, _itemPants, EquipmentSlot.Legs);
+        InventoryHelper.AddItemToInventory(unit, _itemShoes, EquipmentSlot.Feet);
+        InventoryHelper.AddItemToInventory(unit, _itemPotion);
         unit.Abilities.Add(_abilitySteal);
         unit.Stat = new Stat
         {
@@ -380,10 +380,10 @@ public class SeedHandler
             Class = "Cleric",
             Level = 4
         };
-        AddItem(unit, _itemPotion);
-        AddItem(unit, _itemPlate, EquipmentSlot.Chest);
-        AddItem(unit, _itemGreaves, EquipmentSlot.Legs);
-        AddItem(unit, _itemHolyStaff, EquipmentSlot.Weapon);
+        InventoryHelper.AddItemToInventory(unit, _itemPotion);
+        InventoryHelper.AddItemToInventory(unit, _itemPlate, EquipmentSlot.Chest);
+        InventoryHelper.AddItemToInventory(unit, _itemGreaves, EquipmentSlot.Legs);
+        InventoryHelper.AddItemToInventory(unit, _itemHolyStaff, EquipmentSlot.Weapon);
 
         unit.Abilities.Add(_abilityHeal);
         unit.Stat = new Stat
@@ -412,12 +412,12 @@ public class SeedHandler
             Class = "Knight",
             Level = 5
         };
-        AddItem(unit, _itemPotion);
-        AddItem(unit, _itemSteelSword, EquipmentSlot.Weapon);
-        AddItem(unit, _itemHelm, EquipmentSlot.Head);
-        AddItem(unit, _itemPlate, EquipmentSlot.Chest);
-        AddItem(unit, _itemGreaves, EquipmentSlot.Legs);
-        AddItem(unit, _itemSabatons, EquipmentSlot.Feet);
+        InventoryHelper.AddItemToInventory(unit, _itemPotion);
+        InventoryHelper.AddItemToInventory(unit, _itemSteelSword, EquipmentSlot.Weapon);
+        InventoryHelper.AddItemToInventory(unit, _itemHelm, EquipmentSlot.Head);
+        InventoryHelper.AddItemToInventory(unit, _itemPlate, EquipmentSlot.Chest);
+        InventoryHelper.AddItemToInventory(unit, _itemGreaves, EquipmentSlot.Legs);
+        InventoryHelper.AddItemToInventory(unit, _itemSabatons, EquipmentSlot.Feet);
         unit.Abilities.Add(_abilityTaunt);
         unit.Stat = new Stat
         {
@@ -445,7 +445,7 @@ public class SeedHandler
             Class = "Ghost",
             Level = 1
         };
-        AddItem(unit, _itemIronAxe, EquipmentSlot.Weapon);
+        InventoryHelper.AddItemToInventory(unit, _itemIronAxe, EquipmentSlot.Weapon);
         unit.Stat = new Stat
         {
             HitPoints = 25,
@@ -473,7 +473,7 @@ public class SeedHandler
             Class = "Goblin",
             Level = 2
         };
-        AddItem(unit, _itemIronSword, EquipmentSlot.Weapon);
+        InventoryHelper.AddItemToInventory(unit, _itemIronSword, EquipmentSlot.Weapon);
         unit.Stat = new Stat
         {
             HitPoints = 28,
@@ -500,7 +500,7 @@ public class SeedHandler
             Class = "Archer",
             Level = 3
         };
-        AddItem(unit, _itemIronBow, EquipmentSlot.Weapon);
+        InventoryHelper.AddItemToInventory(unit, _itemIronBow, EquipmentSlot.Weapon);
 
         unit.Stat = new Stat
         {
@@ -529,8 +529,8 @@ public class SeedHandler
             Level = 4
         };
 
-        AddItem(unit, _itemLightningStaff, EquipmentSlot.Weapon);
-        AddItem(unit, _itemPotion);
+        InventoryHelper.AddItemToInventory(unit, _itemLightningStaff, EquipmentSlot.Weapon);
+        InventoryHelper.AddItemToInventory(unit, _itemPotion);
         unit.Stat = new Stat
         {
             HitPoints = 26,
@@ -557,9 +557,9 @@ public class SeedHandler
             Class = "Cleric",
             Level = 5
         };
-        AddItem(unit, _itemPotion);
-        AddItem(unit, _itemPlate, EquipmentSlot.Chest);
-        AddItem(unit, _itemHolyStaff, EquipmentSlot.Weapon);
+        InventoryHelper.AddItemToInventory(unit, _itemPotion);
+        InventoryHelper.AddItemToInventory(unit, _itemPlate, EquipmentSlot.Chest);
+        InventoryHelper.AddItemToInventory(unit, _itemHolyStaff, EquipmentSlot.Weapon);
         unit.Abilities.Add(_abilityHeal);
         unit.Stat = new Stat
         {
@@ -630,26 +630,6 @@ public class SeedHandler
         Random numberGenerator = new();
         int random = numberGenerator.Next(0, 7);
         return _rooms[random];
-    }
-
-    private void AddItem(Unit unit, Item item)
-    {
-        // Adds an item to the unit's inventory
-        AddItem(unit, item, EquipmentSlot.None);
-    }
-
-    private void AddItem(Unit unit, Item item, EquipmentSlot slot)
-    {
-        // Adds an item to the unit's inventory or equipment slot. If the unit's inventory is null, it creates a new list.
-        unit.UnitItems ??= new(); // This is cool, I didnt know this existed.
-        unit.UnitItems.Add(new()
-        {
-            Item = item,
-            ItemId = item.Id,
-            Unit = unit,
-            UnitId = unit.Id,
-            Slot = slot
-        });
     }
 
     private void DisplaySeedProgressBar()
